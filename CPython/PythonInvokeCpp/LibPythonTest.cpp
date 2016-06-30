@@ -1,5 +1,7 @@
-//用C++必须在函数前加extern "C"
+#include "stdio.h"
+
 extern "C" int Add(int a,int b)
 {
+	printf("Hello Jennifer!\n");
 	return a+b;
 }

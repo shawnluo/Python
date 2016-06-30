@@ -1,4 +1,4 @@
-TestModule: PythonWithCpp.cpp TestModule.py
+LibPythonTest: LibPythonTest.cpp
 	g++ -c -fPIC LibPythonTest.cpp
 	g++ -shared LibPythonTest.o -o LibPythonTest.so
 clean:

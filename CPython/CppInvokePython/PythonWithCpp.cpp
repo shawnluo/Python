@@ -3,60 +3,59 @@
 using namespace std;
 int main(int argc, char* argv[])
 {
-    //初始化python
     Py_Initialize();
 
-    //直接运行python代码
+    //run python code by using Python lib API
     PyRun_SimpleString("print 'Python Start'");
 
-    //引入当前路径,否则下面模块不能正常导入
+    //import current path, otherwise the modules cannot be imported right
     PyRun_SimpleString("import sys");  
     PyRun_SimpleString("sys.path.append('./')");  
 
-    //引入模块
+    //import python module
     PyObject *pModule = PyImport_ImportModule("TestModule");
-    //获取模块字典属性
+    //get dictionary attribute
     PyObject *pDict = PyModule_GetDict(pModule);
 
-    //直接获取模块中的函数
+    //get the function in module
     PyObject *pFunc = PyObject_GetAttrString(pModule, "Hello");
 
-    //参数类型转换，传递一个字符串。将c/c++类型的字符串转换为python类型，元组中的python类型查看python文档
+    //transfer a string (c/c++ type) to python type
     PyObject *pArg = Py_BuildValue("(s)", "Hello Charity");
 
-    //调用直接获得的函数，并传递参数
+    //invoke the function, and pass parameters
     PyEval_CallObject(pFunc, pArg);
 
-    //从字典属性中获取函数
+    //get function from dictionary attribute
     pFunc = PyDict_GetItemString(pDict, "Add");
-    //参数类型转换，传递两个整型参数
+    //transfer parameters type, and pass two interger parameters
     pArg = Py_BuildValue("(i, i)", 1, 2);
 
-    //调用函数，并得到python类型的返回值
+    //invoke function, and get the return python type value
     PyObject *result = PyEval_CallObject(pFunc, pArg);
-    //c用来保存c/c++类型的返回值
+    
+	//using charater c to save c/c++ type return value
     int c;
-    //将python类型的返回值转换为c/c++类型
+    //transfer the python tpye return value to c/c++ type return value
     PyArg_Parse(result, "i", &c);
-    //输出返回值
+    
     printf("a+b=%d\n", c);
 
-    //通过字典属性获取模块中的类
-    PyObject *pClass = PyDict_GetItemString(pDict, "Test");
+        PyObject *pClass = PyDict_GetItemString(pDict, "Test");
 
-    //实例化获取的类
+    //instantied the class
     PyObject *pInstance = PyInstance_New(pClass, NULL, NULL);
-    //调用类的方法
+    //invoke the method of the class 
     result = PyObject_CallMethod(pInstance, "SayHello", "(s)", "Charity");
-    //输出返回值
+    //output the return value
     char* name=NULL;
     PyArg_Parse(result, "s", &name);
     printf("%s\n", name);
 
     PyRun_SimpleString("print 'Python End'");
 
-    //释放python
+    //Finalize python
     Py_Finalize();
-    getchar();
+    //getchar();
     return 0;
 }

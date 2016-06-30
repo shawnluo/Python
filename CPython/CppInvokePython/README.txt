@@ -1,1 +1,0 @@
-1. 安装python：yum install python python.devel （测试环境是python 2.6）

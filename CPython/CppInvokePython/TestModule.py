@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #Filename:TestModule.py
 def Hello(s):
-    print "Hello World Fuck World"
+    print "Hello Jennifer!"
     print s
 
 def Add(a, b):
